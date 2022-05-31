@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+message Request {
+    int32 a = 1;
+    int32 b = 2;
+}
+
+message Response {
+    int32 r = 1;
+}
+
+service HelloWorld {
+    rpc Add(Request) returns (Response);
+    rpc Multiply(Request) returns (Response);
+}
+
+// protoc --go_out=. --go-grpc_out=. proto/*.proto
+// grpc_cli call localhost:50001 HelloWorld.Add --json_output "a: 1, b: 2" | jq ".r"
+// grpc_cli ls localhost:50001 HelloWorld -l
